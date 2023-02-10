@@ -14,7 +14,7 @@ class Elevator:
 
     # Constructor
     def __init__(self, floors):
-        if (floors > 1 and floors < 50): 
+        if (floors > 1 and floors <= 50): 
             self.floors = floors
         else: 
             input("Invalid Entry. Setting floors to 20\n\nPress any key to continue...")
