@@ -36,10 +36,12 @@ class Elevator:
     def buttonHandler(self, button):
         self.clear()
         if (isinstance(button, int)):
-            if (button > 1 and button < self.floors): 
+            if (button > 0 and button <= self.floors): 
                 print("You pressed %d" % (button))
                 self.moveElevator(button)
-            else: input("Invalid Entry. Pick a floor between 0 and", self.floors, ".\n\nPress any key to continue...")
+            else: 
+                print("Invalid Entry. Pick a floor between 1 and", self.floors)
+                input("\nPress any key to continue...")
         elif (isinstance(button, str)):
             button = button.lower().strip()
             if (button == self.OPEN): self.openDoors()
@@ -52,17 +54,17 @@ class Elevator:
     # Decorator
     @animation.wait(clock, color="blue")
     def moveElevator(self, selectedFloor):
-        if (self.currentFloor < selectedFloor): 
+        if (self.currentFloor < selectedFloor):
+            self.closeDoors() 
             print("Going up!")
-            self.closeDoors()
             time.sleep(selectedFloor * self.TIME_BTW_FLOORS)
             print("You have arrived at floor %d" % selectedFloor)
             self.openDoors()
             self.currentFloor = selectedFloor
 
         elif (self.currentFloor > selectedFloor): 
-            print("Going down!")
             self.closeDoors()
+            print("Going down!")
             time.sleep(selectedFloor * self.TIME_BTW_FLOORS)
             print("You have arrived at floor %d" % selectedFloor)
             self.openDoors()
@@ -74,7 +76,8 @@ class Elevator:
     def openDoors(self): 
         if not (self.isOpen): 
             print("Opening doors.")
-            time.sleep(self.TIME_TO_MV_DOORS) 
+            time.sleep(self.TIME_TO_MV_DOORS)
+            self.isOpen = True
         else: 
             print("The doors are open.")
 
@@ -82,6 +85,7 @@ class Elevator:
         if (self.isOpen):
             print("Closing doors.")
             time.sleep(self.TIME_TO_MV_DOORS) 
+            self.isOpen = False
         else: 
             print("The doors are closed.")
 
